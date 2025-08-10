@@ -2,6 +2,9 @@
 
 A simple Python CLI tool for validating user input for common form fields such as name, email, date of birth, phone number, website link, and password. The tool uses regular expressions to ensure that all inputs match expected formats before accepting them.
 
+<img width="1366" height="731" alt="valid" src="https://github.com/user-attachments/assets/70d8a7e0-47bc-4582-be89-60eecbd9765d" />
+
+
 ## Features
 
 - Validates full name, email, date of birth, phone number, website link, and password
