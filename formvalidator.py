@@ -1,10 +1,11 @@
 import re
+import sys
+# Regular expressions for validating various inputs
 phone_regex = re.compile(
     r'^(\+?\d{1,3}[\s-]?)?'         # optional country code
     r'(\(?\d{2,4}\)?[\s-]?)?'       # optional area code
     r'\d{3,4}[\s-]?\d{4}$'          # main number
 )
-phone_regex = re.compile(r'(?:[^0]\(?\+?\d{1,3}?\)?\s?\-?)?(?:\(?\d{2,4}\)?[\s.-]?)?\(?\d{3,4}\)?[\s.-]?\(?\d{4}\)?')
 email_regex = re.compile(r'[a-zA-Z0-9_.+-]+@[a-z0-9-.]+\.[a-zA-Z0-9-]+', re.IGNORECASE)
 fullname_regex = re.compile(r'^[A-Za-z]+(?: [A-Za-z]+)+$')
 dob = re.compile(r'\d{4}[/.-]\d{1,2}[/.-]\d{1,2}')
@@ -22,11 +23,15 @@ details = {'name': '', 'email': '', 'dob': '', 'phone': '', 'link': '', 'passwor
 
 def validate_input(prompt, regex, error_msg):
     while True:
-        value = input(prompt)
-        if not regex.fullmatch(value):
-            print(error_msg)
-        else:
-            return value
+        try:
+            value = input(prompt)
+            if not regex.fullmatch(value):
+                print(error_msg)
+            else:
+                return value
+        except KeyboardInterrupt:
+            print("\nInput interrupted by user. Exiting...")
+            sys.exit()
 
 print("Form validation Testing Application")
 
