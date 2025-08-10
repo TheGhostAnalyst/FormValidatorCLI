@@ -39,6 +39,5 @@ Email added to details.
 ```
 
 ## License
-Free to use Open Source Tool
 
-This project is open source and
+This project is open source and free to use
