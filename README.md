@@ -14,7 +14,7 @@ A simple Python CLI tool for validating user input for common form fields such a
 2. Run the script in your terminal:
 
     ```bash
-    python valid.py
+    python3 formvalidator.py
     ```
 
 3. Follow the prompts to enter your details. The tool will guide you if any input is invalid.
@@ -39,5 +39,6 @@ Email added to details.
 ```
 
 ## License
+Free to use Open Source Tool
 
 This project is open source and
