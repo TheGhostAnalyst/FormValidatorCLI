@@ -1,46 +1,78 @@
-# FormValidatorCLI
+````markdown
+# Form Validation CLI (Python + PyInputPlus)
 
-A simple Python CLI tool for validating user input for common form fields such as name, email, date of birth, phone number, website link, and password. The tool uses regular expressions to ensure that all inputs match expected formats before accepting them.
-
-<img width="1366" height="731" alt="valid" src="https://github.com/user-attachments/assets/70d8a7e0-47bc-4582-be89-60eecbd9765d" />
-
+A simple **Command-Line Interface (CLI) application** in Python that validates user inputs using **PyInputPlus** and **regular expressions (regex)**. This project demonstrates best practices for input validation, error handling, and user-friendly prompts in Python.
 
 ## Features
 
-- Validates full name, email, date of birth, phone number, website link, and password
-- Provides clear error messages for invalid input
-- Stores collected details and displays them after successful validation
-
-## Usage
-
-1. Clone this repository or download the script.
-2. Run the script in your terminal:
-
-    ```bash
-    python3 formvalidator.py
-    ```
-
-3. Follow the prompts to enter your details. The tool will guide you if any input is invalid.
+- Validates **Full Name**, **Email**, **Date of Birth**, **Phone Number**, **Website URL**, and **Password**.
+- Custom error messages for invalid inputs.
+- Limits user retries to prevent infinite loops.
+- Handles blank inputs gracefully.
+- Modular and easily extendable for new fields or validation rules.
 
 ## Requirements
 
-- Python 3.x
+- Python 3.8+
+- [PyInputPlus](https://pypi.org/project/PyInputPlus/)
 
-## Example
+```bash
+pip install pyinputplus
+````
+
+## Usage
+
+1. **Clone the repository:**
+
+```bash
+git clone https://www.FormValidatorCLI.git
+cd FormValidatorCLI
+```
+
+2. **Run the script:**
+
+```bash
+python form_validation.py
+```
+
+### Example Interaction
 
 ```
-Form validation Testing Application
 Enter your full name: John Doe
-Valid name format.
-Name added to details.
-
-Enter your email address: johndoe@example.com
-Valid email format.
-Email added to details.
-
-...
+Enter your email address: john.doe@example.com
+Enter your date of birth (YYYY-MM-DD): 2000-05-21
+Enter your phone number: +234 802-123-4567
+Enter your website link: https://example.com
+Enter your password: StrongP@ss1
 ```
+
+**Output:**
+
+```
+Form validation completed successfully!
+
+Details collected:
+NAME: John Doe
+EMAIL: john.doe@example.com
+DOB: 2000-05-21
+PHONE: +234 802-123-4567
+LINK: https://example.com
+PASSWORD: StrongP@ss1
+```
+
+## How it Works
+
+* Uses **`allowRegexes`** to accept only valid inputs.
+* Uses **`blockRegexes`** with custom messages for invalid entries.
+* Ensures blank inputs are rejected with **`blank=False`**.
+* Limits retries with **`limit=3`**.
+* Handles date input with **`pyip.inputDate()`** and specified formats.
+
+## Contributing
+
+Feel free to fork and extend this project. You can add more fields, improve regex patterns, or enhance error handling.
 
 ## License
 
-This project is open source and free to use
+MIT License
+
