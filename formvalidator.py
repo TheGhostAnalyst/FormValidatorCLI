@@ -1,5 +1,6 @@
 import re
 import sys
+import pyinputplus as pyip
 # Regular expressions for validating various inputs
 phone_regex = re.compile(
     r'^(\+?\d{1,3}[\s-]?)?'         # optional country code
@@ -8,7 +9,6 @@ phone_regex = re.compile(
 )
 email_regex = re.compile(r'[a-zA-Z0-9_.+-]+@[a-z0-9-.]+\.[a-zA-Z0-9-]+', re.IGNORECASE)
 fullname_regex = re.compile(r'^[A-Za-z]+(?: [A-Za-z]+)+$')
-dob = re.compile(r'\d{4}[/.-]\d{1,2}[/.-]\d{1,2}')
 pass_reg = re.compile(r'[a-zA-Z0-9@#^%&*+=!]{8,}')
 linkreg = re.compile(
     r'(https?://)?'               # optional http or https scheme
@@ -18,63 +18,68 @@ linkreg = re.compile(
     r'(/[^\s]*)?'                 # optional path and query after slash
 )
 
-details = {'name': '', 'email': '', 'dob': '', 'phone': '', 'link': '', 'password': ''}
+details = {}
 
 
-def validate_input(prompt, regex, error_msg):
-    while True:
-        try:
-            value = input(prompt)
-            if not regex.fullmatch(value):
-                print(error_msg)
-            else:
-                return value
-        except KeyboardInterrupt:
-            print("\nInput interrupted by user. Exiting...")
-            sys.exit()
+try:
+    print("Form validation Testing Application")
 
-print("Form validation Testing Application")
+    details['name'] = pyip.inputStr(
+    prompt="Enter your full name: ",
+    allowRegexes=[fullname_regex],
+    blockRegexes=[(r'.*', "Invalid name format. Please enter a valid full name.")],
+    blank=False,
+    limit=3
+    )
+    print("Valid name format.\nName added to details.\n")
 
-details['name'] = validate_input(
-    "Enter your full name: ",
-    fullname_regex,
-    "Invalid name format. Please enter a valid full name."
-)
-print("Valid name format.\nName added to details.\n")
+    details['email'] = pyip.inputStr(
+    prompt="Enter your email address: ",
+    allowRegexes=[email_regex],
+    blockRegexes=[(r'.*', "Invalid email format. Please enter a valid email address.")],
+    blank=False,
+    limit=3
+    )
+    print("Valid email format.\nEmail added to details.\n")
 
-details['email'] = validate_input(
-    "Enter your email address: ",
-    email_regex,
-    "Invalid email format. Please enter a valid email address."
-)
-print("Valid email format.\nEmail added to details.\n")
+    details['dob'] = pyip.inputDate(
+    prompt="Enter your date of birth (YYYY-MM-DD): ",
+    formats=[r"%Y-%m-%d"],
+    blank=False,
+    limit=3
+    )
+    print("Valid date format.\nDate of birth added to details.\n")
 
-details['dob'] = validate_input(
-    "Enter your date of birth (YYYY-MM-DD): ",
-    dob,
-    "Invalid date format. Please enter a valid date in YYYY-MM-DD format."
-)
-print("Valid date format.\nDate of birth added to details.\n")
+    details['phone'] = pyip.inputNum(
+    prompt="Enter your phone number: ",
+    allowRegexes=[phone_regex],
+    blockRegexes=[(r'.*', "Invalid phone number format. Please enter a valid phone number.")],
+    blank=False,
+    limit=3
+    )
+    print("Valid phone number format.\nPhone number added to details.\n")
 
-details['phone'] = validate_input(
-    "Enter your phone number: ",
-    phone_regex,
-    "Invalid phone number format. Please enter a valid phone number."
-)
-print("Valid phone number format.\nPhone number added to details.\n")
+    details['link'] = pyip.inputStr(
+    prompt="Enter a your website valid link: ",
+    allowRegexes=[linkreg],
+    blockRegexes=[(r'.*', "Invalid link format. Please enter a valid link.")],
+    blank=False, limit=3
+    )
+    print("Valid link format.\nLink added to details.\n")
 
-details['link'] = validate_input(
-    "Enter a your website valid link: ",
-    linkreg,
-    "Invalid link format. Please enter a valid link."
-)
-print("Valid link format.\nLink added to details.\n")
-
-details['password'] = validate_input(
-    "Enter your password: ",
-    pass_reg,
-    "Invalid password format. Password must be at least 8 characters long and can include letters, numbers, and special characters (@#^%&*+=!)."
-)
+    details['password'] = pyip.inputStr(
+    prompt="Enter your password: ",
+    allowRegexes=[pass_reg],
+    blockRegexes=[(r'.*', "Invalid password format. Password must be at least 8 characters long and can include letters, numbers, and special characters (@#^%&*+=!).")],
+    blank=False,
+    limit=3
+    )
+except pyip.RetryLimitException:
+    print("You have exceeded the maximum number of attempts. Exiting the application.")
+    sys.exit(1)
+except KeyboardInterrupt:
+    print("\nApplication interrupted by user. Exiting gracefully.")
+    sys.exit(0)
 print("Valid password format.\nPassword added to details.")
 
 print("\nForm validation completed successfully!\n")
