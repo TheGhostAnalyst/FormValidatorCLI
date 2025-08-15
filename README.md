@@ -13,7 +13,7 @@ A simple **Command-Line Interface (CLI) application** in Python that validates u
 
 ## Requirements
 
-- Python 3.8+
+- Python 3.X
 - [PyInputPlus](https://pypi.org/project/PyInputPlus/)
 
 ```bash
