@@ -1,6 +1,7 @@
 import re
 import sys
 import pyinputplus as pyip
+import datetime
 # Regular expressions for validating various inputs
 phone_regex = re.compile(
     r'^(\+?\d{1,3}[\s-]?)?'         # optional country code
@@ -9,7 +10,7 @@ phone_regex = re.compile(
 )
 email_regex = re.compile(r'[a-zA-Z0-9_.+-]+@[a-z0-9-.]+\.[a-zA-Z0-9-]+', re.IGNORECASE)
 fullname_regex = re.compile(r'^[A-Za-z]+(?: [A-Za-z]+)+$')
-pass_reg = re.compile(r'[a-zA-Z0-9@#^%&*+=!]{8,}')
+pass_reg = re.compile(r'[A-Za-z0-9@#^%&*+=!]{8,}')
 linkreg = re.compile(
     r'(https?://)?'               # optional http or https scheme
     r'(www\.)?'                   # optional www.
@@ -41,15 +42,21 @@ try:
     limit=3
     )
     print("Valid email format.\nEmail added to details.\n")
+    while True:
+        details['dob'] = pyip.inputDate(
+        prompt="Enter your date of birth (YYYY-MM-DD): ",
+        formats=[r"%Y-%m-%d"],
+        blank=False,
+        limit=3
+        )
+        print("Valid date format.\nDate of birth added to details.\n")
 
-    details['dob'] = pyip.inputDate(
-    prompt="Enter your date of birth (YYYY-MM-DD): ",
-    formats=[r"%Y-%m-%d"],
-    blank=False,
-    limit=3
-    )
-    print("Valid date format.\nDate of birth added to details.\n")
-
+        if details['dob'].year > 2025:
+            print("Date of birth cannot be in the future beyond 2025.")
+            continue
+        elif details['dob'].year > 1900:
+            print("Valid date format.\nDate of birth added to details.\n")
+            break
     details['phone'] = pyip.inputNum(
     prompt="Enter your phone number: ",
     allowRegexes=[phone_regex],
@@ -71,8 +78,8 @@ try:
     prompt="Enter your password: ",
     allowRegexes=[pass_reg],
     blockRegexes=[(r'.*', "Invalid password format. Password must be at least 8 characters long and can include letters, numbers, and special characters (@#^%&*+=!).")],
-    blank=False,
-    limit=3
+    blank=False
+    
     )
 except pyip.RetryLimitException:
     print("You have exceeded the maximum number of attempts. Exiting the application.")
